@@ -1,0 +1,44 @@
+header{
+    height: 200px;
+    padding: 40px 0;
+    background-color: cornflowerblue
+}
+
+.inner{
+    margin: 0 auto;
+    width: 940px;
+    position: relative;
+}    
+
+.inner a.button{
+    top: 0;
+    right: 0;
+    background-image:url(../image/github-button.png);
+}
+
+@media only screen and (min-width:960px){
+    .inner{
+        margin: 0 auto;
+        width: 940px;
+        position: relative;
+    }    
+
+    .inner a.button{
+        width: 202px;
+        height: 80px;
+        position: absolute;
+        background-image:url(../image/github-button.png);
+    }
+}
+
+@media only screen and (max-width:960px){
+    .inner{
+        width: 740px;
+    }    
+
+    .inner a.button{
+        width: auto;
+        height: auto;
+        background-image:none;
+    }
+}
