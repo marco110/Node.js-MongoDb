@@ -1,8 +1,8 @@
-let formEle = document.getElementById('form');
-let testEle = document.getElementById('password');
-console.log(JSON.stringify(testEle.dataset.info));
-let url = 'http://localhost:3000';
-let socket = new WebSocket('ws://localhost:3000/message');
+// let testEle = document.getElementById('password');
+//console.log(JSON.stringify(testEle.dataset.info));
+
+const url = 'http://192.168.218.133:3000';
+const socket = new WebSocket('ws://192.168.218.133:3000/message');
 socket.addEventListener('open', (event) => {
     console.log('socket is open!!!');
 })
@@ -11,56 +11,64 @@ socket.addEventListener('message', (event) => {
     console.log(event.data + '===> from server.')
 });
 
-if (formEle) {
-    formEle.addEventListener("submit", (event) => {
-        event.preventDefault();
-        let form = document.getElementById('form');
-        let formData = new FormData(form);
-        let id = formData.get('id');
-        let password = formData.get('password');
+const headers = new Headers();
+headers.append('Content-Type', 'application/json');
+headers.append('Accept', 'application/json');
+headers.append('Access-Control-Allow-Origin', '*');
 
-        if (!id || !password) {
-            document.getElementById('message').innerText = 'Id or password can\'t be null!';
-            setTimeout(() => {
-                document.getElementById('message').innerText = null
-            }, 2000)
-            return;
-        }
+const authWithGithubEle = document.getElementById('signInWithGithub');
+authWithGithubEle.addEventListener('click', (event) => {
+    fetch(`${url}/auth/github`, { method: 'Get', mode: 'no-cors', headers: headers, })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+})
 
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Accept', 'application/json');
-        headers.append('Access-Control-Allow-Origin', '*');
+const formEle = document.getElementById('form');
+formEle && formEle.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = document.getElementById('form');
+    const formData = new FormData(form);
+    const userName = formData.get('userName');
+    const password = formData.get('password');
 
-        fetch(`${url}/login`, {
-                body: JSON.stringify({
-                    id,
-                    password
-                }),
-                headers: headers,
-                method: 'POST',
-                //mode: 'no-cors'
-            })
-            .then((res) => {
-                res.json().then((data) => {
-                        if (data.token) {
-                            window.localStorage.setItem("token", `Bearer ${data.token}`);
-                            window.location.href = "/home.html";
-                        } else {
-                            document.getElementById('message').innerText = data.message;
-                            setTimeout(() => {
-                                document.getElementById('message').innerText = null
-                            }, 2000)
-                            console.log(data.message);
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(JSON.stringify(err));
-                    });
-            })
-            .catch((err) => {
-                console.log(JSON.stringify(err));
-            });
-        // console.log("data");
+    if (!userName || !password) {
+        document.getElementById('errorMessage').innerText = 'User name or password can\'t be null!';
+        setTimeout(() => {
+            document.getElementById('errorMessage').innerText = null
+        }, 3000)
+        return;
+    }
+
+    fetch(`${url}/login`, {
+        body: JSON.stringify({
+            userName,
+            password
+        }),
+        headers: headers,
+        method: 'Post',
+        // mode: 'no-cors'
     })
-}
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            if (data.token) {
+                window.localStorage.setItem("token", `Bearer ${data.token}`);
+                window.location.href = "/home.html";
+            } else {
+                document.getElementById('errorMessage').innerText = data.message;
+                setTimeout(() => {
+                    document.getElementById('errorMessage').innerText = null
+                }, 3000)
+                console.log(data.message);
+            }
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
+    // console.log("data");
+})

@@ -6,7 +6,7 @@ class DataService {
     constructor() {
         this.dataBase = null;
         this.dbName = 'marco';
-        this.mongodbUrl = "mongodb://marcoma:666888@192.168.218.130:27017/" + this.dbName;
+        this.mongodbUrl = "mongodb://marcoma:666888@192.168.218.133:27017/" + this.dbName;
     }
 
     async connect() {

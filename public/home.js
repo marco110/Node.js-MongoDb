@@ -1,5 +1,5 @@
-let url = 'http://localhost:3000';
-let socket = new WebSocket('ws://localhost:3000/message');
+let url = 'http://192.168.218.133:3000';
+let socket = new WebSocket('ws://192.168.218.133:3000/message');
 socket.addEventListener('open', (event) => {
     console.log('socket is open!!!');
 })
@@ -15,8 +15,8 @@ window.onload = () => {
         headers: headers
     }).then((res) => {
         res.json().then((res) => {
-            socket.send(res.data.id + ' is online!');
-            document.getElementById('welcome').innerHTML = `Welcome -${res.data.id}-`;
+            socket.send(res.data.userName + ' is online!');
+            document.getElementById('welcome').innerHTML = `Welcome -${res.data.userName}-`;
         });
     })
 }
