@@ -2,6 +2,7 @@ let passport = require('passport');
 let localStategy = require('passport-local').Strategy;
 let githubStrategy = require('passport-github').Strategy;
 let User = require('../model/user');
+let Constant = require('./constant');
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -33,8 +34,8 @@ passport.use('local', new localStategy({
 }));
 
 passport.use(new githubStrategy({
-    clientID: '',
-    clientSecret: '',
+    clientID: Constant.githubClientId,
+    clientSecret: Constant.githubClientSecret,
     callbackURL: "http://127.0.0.1:3000/auth/github/callback",
     passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
