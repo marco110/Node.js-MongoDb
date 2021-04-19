@@ -1,6 +1,6 @@
 #!groovy
 
-node ('jenkins'){
+node (){
     
         stage ('Get Source Code'){
             try{
