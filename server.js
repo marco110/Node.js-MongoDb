@@ -9,7 +9,7 @@ let Token = require('./token');
 let DataService = require('./data/dataService');
 let passport = require('passport');
 let logger = require('./util/logger');
-let passportConfig = require('./util/passport');
+// let passportConfig = require('./util/passport');
 let requestCount = 1;
 
 expressWs(app);
