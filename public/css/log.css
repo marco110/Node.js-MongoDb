@@ -1,0 +1,17 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-image: url(./image/M.jpg);
+    background-repeat: space;
+    background-position: center center;
+    background-size: cover;
+}
+
+.container {
+    position: fixed;
+    width: 100%;
+    top: 20%;
+}
